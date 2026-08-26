@@ -18,7 +18,7 @@ public class CartItem {
         return quantity;
     }
 
-    double calculateSubtotal(){
+    public double calculateSubtotal() {
         return product.getPrice() * quantity;
     }
 
