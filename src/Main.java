@@ -234,7 +234,6 @@ class Main {
         System.out.println("-------------------");
     }
 
-
     void displayOrder() {
         System.out.print("Enter Order Id: ");
         int id = sc.nextInt();
@@ -273,6 +272,23 @@ class Main {
         System.out.println("--------------------");
     }
 
+    public void shipNextOrder() {
+
+        if (store.shipNextOrder()) {
+            System.out.println(" delivered ");
+        } else {
+            System.out.println("Failed");
+        }
+
+        System.out.println("--------------------");
+    }
+
+
+
+
+
+
+
     void main(String[] args) {
 
         System.out.println("Welcome in the store");
@@ -294,6 +310,7 @@ class Main {
                 case 9 -> removeItemFromOrder();
                 case 10 -> displayOrder();
                 case 11 -> addOrderToShippingList();
+                case 12 -> shipNextOrder();
 
 
             }

@@ -176,4 +176,32 @@ public class Store {
     }
 
 
+    public boolean shipNextOrder() {
+
+        if (ordersToBeShipped.isEmpty()) {
+            System.out.println("Shipping is empty");
+            return false;
+        }
+
+        Order order = ordersToBeShipped.peek();
+
+        if (!order.hasItems()) {
+            System.out.println(" order has no items");
+            return false;
+        }
+
+        if (order.getOrderStatus() != OrderStatus.SHIPPED) {
+            System.out.println("This order cannot be shipped again.");
+            return false;
+        }
+
+        ordersToBeShipped.poll();
+
+        order.updateStatus(OrderStatus.DELIVERED);
+
+        deliveredOrders.add(order);
+
+        return true;
+    }
+
 }
