@@ -1,8 +1,6 @@
 package service;
 
-import entity.Order;
-import entity.Product;
-import entity.Review;
+import entity.*;
 
 import java.util.*;
 
@@ -37,6 +35,7 @@ public class Store {
     public Order findOrderById(int id) {
         return orders.get(id);
     }
+
 
     public boolean addProduct(Product p) {
         if (findProductById(p.getId()) != null) {
@@ -107,7 +106,18 @@ public class Store {
         if (findOrderById(o.getOrderId()) != null) {
             return false;
         }
-        orders.put(o.getOrderId() , o);
+        orders.put(o.getOrderId(), o);
+        return true;
+    }
+
+    public boolean addItemToOrder(Order o, Product p, int quantity) {
+        if (o.getOrderStatus() != OrderStatus.PENDING) {
+            System.out.println("This order is: " + o.getOrderStatus());
+            return false;
+        }
+        p.setStockQuantity(p.getStockQuantity() - quantity);
+        o.addItem(new CartItem(p, quantity));
+
         return true;
     }
 

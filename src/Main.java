@@ -118,7 +118,7 @@ class Main {
         System.out.println("--------------------");
     }
 
-    public void createOrder(){
+    public void createOrder() {
 
         System.out.print("Enter Order Id: ");
         int id = sc.nextInt();
@@ -127,19 +127,75 @@ class Main {
         System.out.print("Enter customer name: ");
         String name = sc.nextLine();
 
-        if(!isPositive(id)){
+        if (!isPositive(id)) {
             System.out.println("Id must be positive");
             System.out.println("--------------------");
             return;
         }
-        if(store.addOrder(new Order(id,name, OrderStatus.PENDING))){
+        if (store.addOrder(new Order(id, name, OrderStatus.PENDING))) {
             System.out.println("Created");
-        }
-        else{
+        } else {
             System.out.println("try another id");
         }
         System.out.println("----------------------");
     }
+
+    public void addItemToOrder() {
+        System.out.print("Enter Order Id: ");
+        int orderId = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("Enter Product Id: ");
+        int productId = sc.nextInt();
+        sc.nextLine();
+
+        if (!isPositive(productId) || !isPositive(orderId)) {
+            System.out.println("Ids must be positive, try again");
+            System.out.println("--------------------------------");
+            return;
+        }
+        Order o = store.findOrderById(orderId);
+        Product p = store.findProductById(productId);
+
+        if (o == null) {
+            System.out.println("This order does not exist");
+            System.out.println("--------------------------");
+            return;
+        }
+
+        if (p == null) {
+            System.out.println("This product does not exist");
+            System.out.println("--------------------------");
+            return;
+        }
+
+        System.out.print("Enter quantity: ");
+        int quantity = sc.nextInt();
+        sc.nextLine();
+
+        if (!isPositive(quantity)) {
+            System.out.println("quantity must be positive, try again");
+            System.out.println("--------------------------------");
+            return;
+        }
+
+        if ((p.getStockQuantity() - quantity) < 0) {
+            System.out.println("we have: " + p.getStockQuantity() + ", form the product");
+            System.out.println("so we don't have enough for you, Try again with this limit");
+            return;
+        }
+
+
+        if (store.addItemToOrder(o, p, quantity)) {
+            System.out.println("Added");
+        } else {
+            System.out.println("Failed");
+        }
+
+        System.out.println("--------------");
+
+    }
+
 
     void main(String[] args) {
 
@@ -157,6 +213,8 @@ class Main {
                 case 4 -> searchProductById();
                 case 5 -> store.showAllCategories();
                 case 6 -> store.displayProductsOrderedByPrice();
+                case 7 -> createOrder();
+                case 8 -> addItemToOrder();
             }
         }
 

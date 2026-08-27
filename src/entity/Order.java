@@ -19,22 +19,39 @@ public class Order {
         this.total = 0.0;
     }
 
-    public void addItem(CartItem item) {
-        items.add(item);
-        calculateTotal(item.calculateSubtotal());
+    public void addItem(CartItem newItem) {
+
+        for (CartItem item : items) {
+
+            if (item.getProduct().getId() == newItem.getProduct().getId()) {
+                item.setQuantity(item.getQuantity() + newItem.getQuantity());
+                calculateTotal();
+                return;
+            }
+        }
+
+        items.add(newItem);
+        calculateTotal();
     }
 
     public boolean removeItem(CartItem item) {
         if (items.isEmpty()) return false;
         boolean isRemoved = items.remove(item);
         if (isRemoved) {
-            calculateTotal(-item.calculateSubtotal());
+            calculateTotal();
         }
         return isRemoved;
     }
 
-    private void calculateTotal(double amount) {
-        this.total += amount;
+    private void calculateTotal() {
+        total = 0;
+
+        for (CartItem item : items) {
+            total += item.calculateSubtotal();
+        }
+    }
+    public int getOrderId() {
+        return orderId;
     }
 
     public double getTotal() {
@@ -45,8 +62,8 @@ public class Order {
         this.orderStatus = status;
     }
 
-    public int getOrderId() {
-        return orderId;
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 
     public void displayOrder() {
