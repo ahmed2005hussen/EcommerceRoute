@@ -45,4 +45,38 @@ public class Store {
         return true;
     }
 
+    public boolean removeProductById(int id) {
+        Product p = findProductById(id);
+        if (p == null) {
+            return false;
+        }
+        products.remove(p);
+        productsById.remove(p.getId());
+        return true;
+    }
+
+    public void displayAllProducts() {
+        if (products.isEmpty()) {
+            System.out.println("we don't have any products");
+            return;
+        }
+
+        System.out.println("Products: ");
+        int count = 1;
+        for (Product p : products) {
+            System.out.println(count++ + ". " + p);
+        }
+    }
+
+    public void showAllCategories(){
+        if(categories.isEmpty()){
+            System.out.println("We don't have any categories yet");
+            return;
+        }
+        int count = 1;
+        System.out.println("Categories: ");
+        for (String c : categories){
+            System.out.println(count++ + ". " + c);
+        }
+    }
 }

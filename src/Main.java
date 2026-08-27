@@ -33,7 +33,7 @@ class Main {
         return sc.nextInt();
     }
 
-    boolean checkPositive(double number) {
+    boolean isPositive(double number) {
         if (number <= 0) return false;
 
         return true;
@@ -59,7 +59,7 @@ class Main {
         int stockQuantity = sc.nextInt();
         sc.nextLine();
 
-        if (!checkPositive(id) || !checkPositive(stockQuantity) || !checkPositive(price)) {
+        if (!isPositive(id) || !isPositive(stockQuantity) || !isPositive(price)) {
             System.out.println("Invalid values id, stock quantity and price must be greater than 0");
             System.out.println("----------------------------");
 
@@ -74,6 +74,49 @@ class Main {
         System.out.println("----------------------------");
     }
 
+    public void removeProduct() {
+        System.out.print("Enter product Id: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        if (!isPositive(id)) {
+            System.out.println("id must be positive");
+            System.out.println("-----------------");
+            return;
+        }
+
+        if (store.removeProductById(id)) {
+            System.out.println("Removed");
+        } else {
+            System.out.println("Not exist id");
+        }
+
+        System.out.println("-----------------");
+
+    }
+
+    public void searchProductbyId() {
+        System.out.print("Enter product Id: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        if (!isPositive(id)) {
+            System.out.println("id must be positive");
+            System.out.println("-----------------");
+            return;
+        }
+
+        Product p = store.findProductById(id);
+
+        if (p == null) {
+            System.out.println("Product Not exist");
+        } else {
+            System.out.println(p);
+        }
+        System.out.println("--------------------");
+    }
+
+
     void main(String[] args) {
 
         System.out.println("Welcome in the store");
@@ -85,6 +128,11 @@ class Main {
 
             switch (choice) {
                 case 1 -> addProduct();
+                case 2 -> removeProduct();
+                case 3 -> store.displayAllProducts();
+                case 4 -> searchProductbyId();
+                case 5 -> store.showAllCategories();
+
             }
         }
 
