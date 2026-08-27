@@ -297,8 +297,7 @@ class Main {
 
         if (store.cancelOrder(id)) {
             System.out.println("cancelled .");
-        }
-        else {
+        } else {
             System.out.println("Failed");
         }
 
@@ -355,6 +354,36 @@ class Main {
         System.out.println("--------------------");
     }
 
+    public void showReviewsForProduct() {
+
+        System.out.print("Enter Product ID: ");
+        int productId = sc.nextInt();
+        sc.nextLine();
+
+        if (!isPositive(productId)) {
+            System.out.println("ID must be positive.");
+            System.out.println("--------------------");
+            return;
+        }
+
+        store.showReviewsForProduct(productId);
+
+        System.out.println("--------------------");
+    }
+
+    public void removeOutOfStockProducts() {
+
+        store.removeOutOfStockProducts();
+
+        System.out.println("removed ");
+        System.out.println("--------------------");
+    }
+
+    public void displayOrdersOrderedByTotal() {
+        store.displayOrdersOrderedByTotal();
+        System.out.println("--------------------");
+    }
+
     void main(String[] args) {
 
         System.out.println("Welcome in the store");
@@ -380,12 +409,15 @@ class Main {
                 case 13 -> cancelOrder();
                 case 14 -> searchOrderById();
                 case 15 -> addReview();
-
-
-
+                case 16 -> showReviewsForProduct();
+                case 17 -> removeOutOfStockProducts();
+                case 18 -> displayOrdersOrderedByTotal();
+                case 19 -> {
+                    break loop;
+                }
+                default -> System.out.println("Enter valid number");
             }
         }
-
 
     }
 

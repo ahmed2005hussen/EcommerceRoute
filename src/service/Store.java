@@ -238,6 +238,58 @@ public class Store {
         return true;
     }
 
+    public void showReviewsForProduct(int productId) {
+
+        if (findProductById(productId) == null) {
+            System.out.println("Product does not exist.");
+            return;
+        }
+
+        boolean found = false;
+
+        for (Review review : reviews) {
+            if (review.getProductId() == productId) {
+                System.out.println(review);
+                found = true;
+            }
+        }
+
+        if (!found) {
+            System.out.println("No reviews ");
+        }
+    }
+
+    public void removeOutOfStockProducts() {
+
+        Iterator<Product> iterator = products.iterator();
+
+        while (iterator.hasNext()) {
+
+            Product product = iterator.next();
+
+            if (product.getStockQuantity() == 0) {
+                iterator.remove();
+                productsById.remove(product.getId());
+            }
+        }
+    }
+
+    Comparator<Order> byTotal = Comparator.comparingDouble(Order::getTotal);
+
+    public void displayOrdersOrderedByTotal() {
+
+
+        List<Order> sortedOrders = new ArrayList<>(orders.values());
+
+        Comparator<Order> byTotal =
+                Comparator.comparingDouble(Order::getTotal);
+
+        sortedOrders.sort(byTotal);
+
+        for (Order order : sortedOrders) {
+            order.displayOrder();
+        }
+    }
 
 
 
