@@ -30,5 +30,19 @@ public class Store {
         ordersToBeShipped = new ArrayDeque<>();
     }
 
+    public Product findProductById(int id) {
+        return productsById.get(id);
+    }
+
+    public boolean addProduct(Product p) {
+        if (findProductById(p.getId()) != null) {
+            return false;
+        }
+        products.add(p);
+        productsById.put(p.getId(), p);
+        categories.add(p.getCategory());
+
+        return true;
+    }
 
 }
