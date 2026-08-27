@@ -175,7 +175,6 @@ public class Store {
         return true;
     }
 
-
     public boolean shipNextOrder() {
 
         if (ordersToBeShipped.isEmpty()) {
@@ -203,5 +202,43 @@ public class Store {
 
         return true;
     }
+
+    public boolean cancelOrder(int orderId) {
+
+        Order order = findOrderById(orderId);
+
+        if (order == null) {
+            System.out.println("Order does not exist.");
+            return false;
+        }
+
+        if (order.getOrderStatus() == OrderStatus.DELIVERED || order.getOrderStatus() == OrderStatus.CANCELLED) {
+            System.out.println("cannot be cancelled, because it's: " + order.getOrderStatus());
+            return false;
+        }
+
+        if (order.getOrderStatus() == OrderStatus.SHIPPED) {
+            ordersToBeShipped.remove(order);
+        }
+
+        order.updateStatus(OrderStatus.CANCELLED);
+
+        return true;
+    }
+
+    public boolean addReview(int productId, String customerName, String comment) {
+
+        if (findProductById(productId) == null) {
+            return false;
+        }
+
+        Review review = new Review(productId, customerName, comment);
+        reviews.add(review);
+
+        return true;
+    }
+
+
+
 
 }

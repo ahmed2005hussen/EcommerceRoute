@@ -283,11 +283,77 @@ class Main {
         System.out.println("--------------------");
     }
 
+    public void cancelOrder() {
 
+        System.out.print("Enter Order ID: ");
+        int id = sc.nextInt();
+        sc.nextLine();
 
+        if (!isPositive(id)) {
+            System.out.println("Id must be positive.");
+            System.out.println("--------------------");
+            return;
+        }
 
+        if (store.cancelOrder(id)) {
+            System.out.println("cancelled .");
+        }
+        else {
+            System.out.println("Failed");
+        }
 
+        System.out.println("--------------------");
+    }
 
+    public void searchOrderById() {
+
+        System.out.print("Enter order Id: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        if (!isPositive(id)) {
+            System.out.println("Id must be positive.");
+            System.out.println("--------------------");
+            return;
+        }
+
+        Order order = store.findOrderById(id);
+
+        if (order == null) {
+            System.out.println("Order does not exist");
+        } else {
+            order.displayOrder();
+        }
+
+        System.out.println("--------------------");
+    }
+
+    public void addReview() {
+
+        System.out.print("Enter Product ID: ");
+        int productId = sc.nextInt();
+        sc.nextLine();
+
+        if (!isPositive(productId)) {
+            System.out.println("ID must be positive.");
+            System.out.println("--------------------");
+            return;
+        }
+
+        System.out.print("Enter customer name: ");
+        String customerName = sc.nextLine();
+
+        System.out.print("Enter comment: ");
+        String comment = sc.nextLine();
+
+        if (store.addReview(productId, customerName, comment)) {
+            System.out.println(" added ");
+        } else {
+            System.out.println("Product not exist.");
+        }
+
+        System.out.println("--------------------");
+    }
 
     void main(String[] args) {
 
@@ -311,6 +377,10 @@ class Main {
                 case 10 -> displayOrder();
                 case 11 -> addOrderToShippingList();
                 case 12 -> shipNextOrder();
+                case 13 -> cancelOrder();
+                case 14 -> searchOrderById();
+                case 15 -> addReview();
+
 
 
             }
