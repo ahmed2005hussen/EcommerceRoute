@@ -1,3 +1,5 @@
+import entity.Order;
+import entity.OrderStatus;
 import entity.Product;
 import service.Store;
 
@@ -95,7 +97,7 @@ class Main {
 
     }
 
-    public void searchProductbyId() {
+    public void searchProductById() {
         System.out.print("Enter product Id: ");
         int id = sc.nextInt();
         sc.nextLine();
@@ -116,6 +118,28 @@ class Main {
         System.out.println("--------------------");
     }
 
+    public void createOrder(){
+
+        System.out.print("Enter Order Id: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("Enter customer name: ");
+        String name = sc.nextLine();
+
+        if(!isPositive(id)){
+            System.out.println("Id must be positive");
+            System.out.println("--------------------");
+            return;
+        }
+        if(store.addOrder(new Order(id,name, OrderStatus.PENDING))){
+            System.out.println("Created");
+        }
+        else{
+            System.out.println("try another id");
+        }
+        System.out.println("----------------------");
+    }
 
     void main(String[] args) {
 
@@ -130,9 +154,9 @@ class Main {
                 case 1 -> addProduct();
                 case 2 -> removeProduct();
                 case 3 -> store.displayAllProducts();
-                case 4 -> searchProductbyId();
+                case 4 -> searchProductById();
                 case 5 -> store.showAllCategories();
-
+                case 6 -> store.displayProductsOrderedByPrice();
             }
         }
 

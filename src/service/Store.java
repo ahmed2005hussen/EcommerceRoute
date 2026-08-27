@@ -34,6 +34,10 @@ public class Store {
         return productsById.get(id);
     }
 
+    public Order findOrderById(int id) {
+        return orders.get(id);
+    }
+
     public boolean addProduct(Product p) {
         if (findProductById(p.getId()) != null) {
             return false;
@@ -68,15 +72,44 @@ public class Store {
         }
     }
 
-    public void showAllCategories(){
-        if(categories.isEmpty()){
+    public void showAllCategories() {
+        if (categories.isEmpty()) {
             System.out.println("We don't have any categories yet");
             return;
         }
         int count = 1;
         System.out.println("Categories: ");
-        for (String c : categories){
+        for (String c : categories) {
             System.out.println(count++ + ". " + c);
         }
     }
+
+    public void displayProductsOrderedByPrice() {
+        if (products.isEmpty()) {
+            System.out.println("we don't have any products");
+            return;
+        }
+
+        System.out.println("Products: ");
+        int count = 1;
+
+        List<Product> sortedProducts = new ArrayList<>(products);
+
+        Collections.sort(sortedProducts);
+
+        for (Product p : sortedProducts) {
+            System.out.println(count++ + ". " + p);
+
+        }
+    }
+
+    public boolean addOrder(Order o) {
+        if (findOrderById(o.getOrderId()) != null) {
+            return false;
+        }
+        orders.put(o.getOrderId() , o);
+        return true;
+    }
+
+
 }

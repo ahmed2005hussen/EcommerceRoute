@@ -45,6 +45,10 @@ public class Order {
         this.orderStatus = status;
     }
 
+    public int getOrderId() {
+        return orderId;
+    }
+
     public void displayOrder() {
         System.out.println(
                 "\nOrder: " +
