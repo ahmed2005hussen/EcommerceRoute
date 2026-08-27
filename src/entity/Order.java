@@ -36,10 +36,12 @@ public class Order {
 
     public boolean removeItem(CartItem item) {
         if (items.isEmpty()) return false;
+
         boolean isRemoved = items.remove(item);
         if (isRemoved) {
             calculateTotal();
         }
+
         return isRemoved;
     }
 
@@ -50,6 +52,7 @@ public class Order {
             total += item.calculateSubtotal();
         }
     }
+
     public int getOrderId() {
         return orderId;
     }
@@ -66,15 +69,41 @@ public class Order {
         return orderStatus;
     }
 
+    public CartItem findItemByProductId(int productId) {
+        for (CartItem item : items) {
+            if (item.getProduct().getId() == productId) {
+                return item;
+            }
+        }
+
+        return null;
+    }
+
+
     public void displayOrder() {
-        System.out.println(
-                "\nOrder: " +
-                        "\n  orderId: " + orderId +
-                        "\n  customerName: " + customerName +
-                        "\n  items: " + items +
-                        "\n  total: " + total +
-                        "\n  orderStatus: " + orderStatus
-        );
+        System.out.println("\nOrder ID: " + orderId);
+        System.out.println("Customer Name: " + customerName);
+        System.out.println("Status: " + orderStatus);
+
+        System.out.println("Items:");
+
+        if (items.isEmpty()) {
+            System.out.println("  No items.");
+        } else {
+            for (CartItem item : items) {
+                System.out.println(
+                        "  Product: " + item.getProduct().getName() +
+                                " | Quantity: " + item.getQuantity() +
+                                " | Subtotal: " + item.calculateSubtotal()
+                );
+            }
+        }
+
+        System.out.println("Final Total: " + total);
+    }
+
+    public boolean hasItems() {
+        return !items.isEmpty();
     }
 
 }

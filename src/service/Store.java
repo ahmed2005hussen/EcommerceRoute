@@ -36,7 +36,6 @@ public class Store {
         return orders.get(id);
     }
 
-
     public boolean addProduct(Product p) {
         if (findProductById(p.getId()) != null) {
             return false;
@@ -117,6 +116,61 @@ public class Store {
         }
         p.setStockQuantity(p.getStockQuantity() - quantity);
         o.addItem(new CartItem(p, quantity));
+
+        return true;
+    }
+
+    public boolean removeItemFromOrder(Order o, Product p) {
+
+        if (o.getOrderStatus() != OrderStatus.PENDING) {
+            System.out.println("Items cannot be modified when order is "
+                    + o.getOrderStatus());
+            return false;
+        }
+
+        if (p == null) {
+            System.out.println("Product does not exist.");
+            return false;
+        }
+        CartItem item = o.findItemByProductId(p.getId());
+
+        if (item == null) {
+            System.out.println("Item does not exist in this order.");
+            return false;
+        }
+
+        boolean removed = o.removeItem(item);
+
+        if (removed) {
+            p.setStockQuantity(p.getStockQuantity() + item.getQuantity());
+        }
+        return removed;
+    }
+
+    public boolean addOrderToShippingList(Order o) {
+
+        if (o == null) {
+            System.out.println("Order does not exist.");
+            return false;
+        }
+
+        if (o.getOrderStatus() != OrderStatus.PENDING) {
+            System.out.println("Order must be Pending.");
+            return false;
+        }
+
+        if (!o.hasItems()) {
+            System.out.println("This order with no items");
+            return false;
+        }
+
+        if (ordersToBeShipped.contains(o)) {
+            System.out.println("Order is already in the shipping list.");
+            return false;
+        }
+
+        ordersToBeShipped.offer(o);
+        o.updateStatus(OrderStatus.SHIPPED);
 
         return true;
     }

@@ -196,6 +196,82 @@ class Main {
 
     }
 
+    public void removeItemFromOrder() {
+        System.out.print("Enter Order Id: ");
+        int orderId = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("Enter Product Id: ");
+        int productId = sc.nextInt();
+        sc.nextLine();
+
+        if (!isPositive(productId) || !isPositive(orderId)) {
+            System.out.println("Ids must be positive, try again");
+            System.out.println("--------------------------------");
+            return;
+        }
+        Order o = store.findOrderById(orderId);
+        Product p = store.findProductById(productId);
+
+        if (o == null) {
+            System.out.println("This order does not exist");
+            System.out.println("--------------------------");
+            return;
+        }
+
+        if (p == null) {
+            System.out.println("This product does not exist");
+            System.out.println("--------------------------");
+            return;
+        }
+        if (store.removeItemFromOrder(o, p)) {
+
+            System.out.println("removed");
+        } else {
+            System.out.println("Not removed");
+        }
+
+        System.out.println("-------------------");
+    }
+
+
+    void displayOrder() {
+        System.out.print("Enter Order Id: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        if (!isPositive(id)) {
+            System.out.println("Id must be positive, try again");
+            System.out.println("--------------------------------");
+            return;
+        }
+
+        Order order = store.findOrderById(id);
+        if (order == null) {
+            System.out.println("Order does not exist.");
+            return;
+        }
+        order.displayOrder();
+        System.out.println("--------------------------------");
+
+    }
+
+    public void addOrderToShippingList() {
+
+        System.out.print("Enter order Id: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        Order order = store.findOrderById(id);
+
+        if (store.addOrderToShippingList(order)) {
+            System.out.println(" added ");
+        } else {
+            System.out.println("Failed ");
+        }
+
+        System.out.println("--------------------");
+    }
 
     void main(String[] args) {
 
@@ -215,6 +291,11 @@ class Main {
                 case 6 -> store.displayProductsOrderedByPrice();
                 case 7 -> createOrder();
                 case 8 -> addItemToOrder();
+                case 9 -> removeItemFromOrder();
+                case 10 -> displayOrder();
+                case 11 -> addOrderToShippingList();
+
+
             }
         }
 
