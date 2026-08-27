@@ -80,6 +80,7 @@ public class Store {
         for (String c : categories) {
             System.out.println(count++ + ". " + c);
         }
+        System.out.println("--------------------");
     }
 
     public void displayProductsOrderedByPrice() {

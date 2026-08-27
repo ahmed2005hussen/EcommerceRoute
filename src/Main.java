@@ -32,6 +32,7 @@ class Main {
                         "19. Exit\n"
         );
 
+        System.out.print("Enter number: ");
         return sc.nextInt();
     }
 
