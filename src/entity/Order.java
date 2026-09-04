@@ -3,6 +3,7 @@ package entity;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public class Order {
     private int orderId;
@@ -21,16 +22,17 @@ public class Order {
 
     public void addItem(CartItem newItem) {
 
-        for (CartItem item : items) {
+        Optional<CartItem> existingItem = items.stream()
+                .filter(item -> item.getProduct().getId() == newItem.getProduct().getId())
+                .findFirst();
 
-            if (item.getProduct().getId() == newItem.getProduct().getId()) {
-                item.setQuantity(item.getQuantity() + newItem.getQuantity());
-                calculateTotal();
-                return;
-            }
+        if (existingItem.isPresent()) {
+            CartItem item = existingItem.get();
+            item.setQuantity(item.getQuantity() + newItem.getQuantity());
+        } else {
+            items.add(newItem);
         }
 
-        items.add(newItem);
         calculateTotal();
     }
 
@@ -46,11 +48,9 @@ public class Order {
     }
 
     private void calculateTotal() {
-        total = 0;
-
-        for (CartItem item : items) {
-            total += item.calculateSubtotal();
-        }
+        total = items.stream()
+                .mapToDouble(CartItem::calculateSubtotal)
+                .sum();
     }
 
     public int getOrderId() {
@@ -70,13 +70,10 @@ public class Order {
     }
 
     public CartItem findItemByProductId(int productId) {
-        for (CartItem item : items) {
-            if (item.getProduct().getId() == productId) {
-                return item;
-            }
-        }
-
-        return null;
+        return items.stream()
+                .filter(item -> item.getProduct().getId() == productId)
+                .findFirst()
+                .orElse(null);
     }
 
 

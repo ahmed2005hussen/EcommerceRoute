@@ -246,18 +246,15 @@ public class Store {
             return;
         }
 
-        boolean found = false;
+        List<Review> productReviews = reviews.stream()
+                .filter(review -> review.getProductId() == productId)
+                .toList();
 
-        for (Review review : reviews) {
-            if (review.getProductId() == productId) {
-                System.out.println(review);
-                found = true;
-            }
-        }
-
-        if (!found) {
+        if (productReviews.isEmpty()) {
             System.out.println("No reviews ");
+            return;
         }
+        productReviews.forEach(System.out::println);
     }
 
     public void removeOutOfStockProducts() {
@@ -275,23 +272,10 @@ public class Store {
         }
     }
 
-    Comparator<Order> byTotal = Comparator.comparingDouble(Order::getTotal);
-
     public void displayOrdersOrderedByTotal() {
-
-
-        List<Order> sortedOrders = new ArrayList<>(orders.values());
-
-        Comparator<Order> byTotal =
-                Comparator.comparingDouble(Order::getTotal);
-
-        sortedOrders.sort(byTotal);
-
-        for (Order order : sortedOrders) {
-            order.displayOrder();
-        }
+        orders.values().stream()
+                .sorted(Comparator.comparingDouble(Order::getTotal))
+                .forEach(Order::displayOrder);
     }
-
-
 
 }
